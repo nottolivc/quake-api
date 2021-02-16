@@ -19,6 +19,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [loaded, isLoading] = useState(false);
 
+  
   useEffect(() => {    
     axios.get(`http://localhost:4000/quakes`)
         .then(res => {
@@ -26,6 +27,10 @@ const App = () => {
           //quakes = res.data.features;
           console.log(res.data.features);
           isLoading(true)
+          navigator.geolocation.getCurrentPosition(function(position) {
+            console.log("Latitude is :", position.coords.latitude);
+            console.log("Longitude is :", position.coords.longitude);
+          });
         })
         .catch(err => {
           console.log(err)
@@ -124,7 +129,9 @@ const App = () => {
     <h1>Quakes Query</h1>
     </header>
     <div className="container1">
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="box">
+      <br />
+      <br />
     <p>Location (Closest Earthquakes will Show)</p>
     <input type="text" onChange={onChangeLoc} value={location} />
     <p>Start date</p>
