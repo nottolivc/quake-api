@@ -19,9 +19,9 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [loaded, isLoading] = useState(false);
 
-
+  
   useEffect(() => {    
-    axios.get(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson`)
+    axios.get(`http://localhost:4000/quakes`)
         .then(res => {
           setQuakes(res.data.features);
           //quakes = res.data.features;
