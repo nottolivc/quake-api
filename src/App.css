@@ -243,7 +243,9 @@ select {
 }
 
 header {
-  background: #DD00FF;
+  /* background: #DD00FF; */
+  background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(98,38,116,1) 0%, rgba(253,34,255,1) 100%, rgba(0,212,255,1) 100%);
   color: white;
   padding: 16px;
   border: 1px solid #aaa;
