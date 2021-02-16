@@ -246,6 +246,7 @@ header {
   background: #DD00FF;
   color: white;
   padding: 16px;
+  border: 1px solid #aaa;
 }
 
 .box {
