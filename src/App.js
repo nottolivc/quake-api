@@ -4,8 +4,6 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate'; 
 import Table from 'react-bootstrap/Table';
 
-import MapContainer from './components/MapContainer';
-
 const App = () => {
 
   const [quakes, setQuakes] = useState([]);
@@ -17,10 +15,11 @@ const App = () => {
   const [radius, setRadius] = useState(200);
   const [magnitude, setMagnitude] = useState(5);
   const [quakesData, setData] = useState([]);
-  
+  const [magsVal, setMagsVal] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [loaded, isLoading] = useState(false);
-  
+  const [medianMag, setMedian] = useState('');
+
   useEffect(() => {    
     axios.get(`http://localhost:4000/quakes`)
         .then(res => {
@@ -66,9 +65,9 @@ const App = () => {
 
   const onChangeMag = e => {
       setMagnitude(e.target.value);
-}
-  let earthquakes = []
+  }
 
+  let earthquakes = []
 
   const PER_PAGE = 100;
   const offset = PER_PAGE;
@@ -78,14 +77,13 @@ const App = () => {
   }
   
   let magnitudes = []
-  let maxMagsVal;
-  let medianMag;
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
     const result = await axios.get(`${url}&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
     setData(result.data.features);
+    isLoading(true);
     console.log(result)
     console.log(result.data)
     earthquakes.push(result.data.features)
@@ -95,8 +93,8 @@ const App = () => {
     console.log(magnitudes);
     magnitudes.sort(function(a, b) { return a - b });
     console.log(magnitudes);
-    maxMagsVal = magnitudes.pop();
-    console.log(maxMagsVal);
+    setMagsVal(magnitudes.pop());
+    console.log(magsVal);
     let array = magnitudes
     console.log(array)
     function median(array){
@@ -106,8 +104,10 @@ const App = () => {
       var mid = array.length / 2;
       return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2;
     }
-    console.log(median(array))
-    medianMag = median(array)
+    console.log(median(array));
+    setMedian(median(array));
+    console.log(medianMag);
+    console.log(magsVal);
   }
 
   const getTime = () => {
@@ -152,15 +152,14 @@ const App = () => {
     <br />
     <button type="submit">Submit Query</button>
     <br />
-    <MapContainer />
     <br />
     </form>
     </div>
     <div className="container2">
     <p>Displaying top 100 of {quakes.length}</p>
     <p>Min Magnitude: {magnitude}</p>
-    <div>Max Magnitude: {loaded ? <p>{maxMagsVal}</p> : <p>Loading...</p>}</div>
-    <div>Median Magnitude: {loaded ? <p>{medianMag}</p> : <p>Loading...</p>}</div>
+    <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
+    <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
     <p>Total Number of Earthquakes: {quakes.length}</p>
     <br />
        <>

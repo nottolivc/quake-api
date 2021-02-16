@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
-​
+
 const MapContainer = () => {
   
   const mapStyles = {        
@@ -12,8 +12,7 @@ const MapContainer = () => {
   }
   
   return (
-     <LoadScript
-       googleMapsApiKey='process.env.MAP_KEY'>
+     <LoadScript googleMapsApiKey='process.env.MAP_KEY'>
         <GoogleMap
           mapContainerStyle={mapStyles}
           zoom={13}
