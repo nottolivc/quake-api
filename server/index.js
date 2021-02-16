@@ -52,18 +52,6 @@ app.get('/quakes', async (req, res) => {
 //     location: 'China',
 //   },
 // });
-
-// Retrieve just the data from the response
-// const { data } = resp;
-// console.log(resp);
-// request.get('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson', (error, response, body) => {
-//   if (error) {
-//     return console.log(error)
-//   }
-//   console.log(JSON.parse(body))
-//   //console.log(response)
-// })
-
 app.use('/api', createProxyMiddleware({ target: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson', changeOrigin: true }));
 
 app.listen(PORT, () => {

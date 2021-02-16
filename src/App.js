@@ -84,19 +84,12 @@ const App = () => {
     const result = await axios.get(`${url}&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
     setData(result.data.features);
     isLoading(true);
-    console.log(result)
-    console.log(result.data)
     earthquakes.push(result.data.features)
-    console.log(earthquakes)
-    console.log(result.data.features.map((s, item) => { return s.properties.mag }));
     magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
-    console.log(magnitudes);
     magnitudes.sort(function(a, b) { return a - b });
     console.log(magnitudes);
     setMagsVal(magnitudes.pop());
-    console.log(magsVal);
     let array = magnitudes
-    console.log(array)
     function median(array){
       array.sort(function(a, b) {
         return a - b;
@@ -104,10 +97,7 @@ const App = () => {
       var mid = array.length / 2;
       return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2;
     }
-    console.log(median(array));
     setMedian(median(array));
-    console.log(medianMag);
-    console.log(magsVal);
   }
 
   const getTime = () => {
@@ -133,76 +123,76 @@ const App = () => {
     <form onSubmit={handleSubmit} className="box">
       <br />
       <br />
-    <p>Location (Closest Earthquakes will Show)</p>
-    <input type="text" onChange={onChangeLoc} value={location} />
-    <p>Start date</p>
-    <input type="date" onChange={onChangeStart} value={start} />
-    <p>End date</p>
-    <input type="date" onChange={onChangeEnd} value={end} />
-    <p>Min magnitude (0-10)</p>
-    <input type="number" onChange={onChangeMag} value={magnitude} />
-    <p>Latitude (-90, 90)</p>
-    <input type="number" onChange={onChangeLat} value={latitude} />
-    <p>Longitude (-180, 180)</p>
-    <input type="number" onChange={onChangeLong} value={longitude} />
-    <br />
-    <p>Radius (km)</p>
-    <input type="number" onChange={onChangeRadius} value={radius} />
-    <br />
-    <br />
-    <button type="submit">Submit Query</button>
-    <br />
-    <br />
+        <p>Location (Closest Earthquakes will Show)</p>
+        <input type="text" onChange={onChangeLoc} value={location} />
+        <p>Start date</p>
+        <input type="date" onChange={onChangeStart} value={start} />
+        <p>End date</p>
+        <input type="date" onChange={onChangeEnd} value={end} />
+        <p>Min magnitude (0-10)</p>
+        <input type="number" onChange={onChangeMag} value={magnitude} />
+        <p>Latitude (-90, 90)</p>
+        <input type="number" onChange={onChangeLat} value={latitude} />
+        <p>Longitude (-180, 180)</p>
+        <input type="number" onChange={onChangeLong} value={longitude} />
+        <br />
+        <p>Radius (km)</p>
+        <input type="number" onChange={onChangeRadius} value={radius} />
+        <br />
+        <br />
+        <button type="submit">Submit Query</button>
+        <br />
+        <br />
     </form>
     </div>
     <div className="container2">
-    <p>Displaying top 100 of {quakes.length}</p>
-    <p>Min Magnitude: {magnitude}</p>
-    <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
-    <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
-    <p>Total Number of Earthquakes: {quakes.length}</p>
-    <br />
+        <p>Displaying top 100 of {quakes.length}</p>
+        <p>Min Magnitude: {magnitude}</p>
+        <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
+        <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
+        <p>Total Number of Earthquakes: {quakes.length}</p>
+       <br />
        <>
         <h4>Quake Results Data Table</h4>
         {quakesData.map((s, item) => {
-            return (
-                <div key={item}>
-                <div className="table__wrap">
-                <table className="table">
-                    <thead className="table__header">
-                    <tr className="table__row">
-                        <th className="table__cell u-text-left">Title and Location</th>
-                        <th className="table__cell u-text-right">Magnitude</th>
-                        <th className="table__cell u-text-right">Time</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr className="table__row">
-                    <td className="table__account table__cell">
-                        <span className="table__account-number">{s.properties.title}</span>
-                    </td>
-                    <td className="table__balance table__cell u-text-right u-font-mono">{s.properties.mag}</td>
-                    <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
-                    </tr>
-                    <tr className="table__row">
-                        <td className="table__account table__cell">
-                        <span className="table__account-name">{s.properties.place}</span>
-                        </td>
-                        <td className="table__balance table__cell u-text-right u-font-mono"></td>
-                        <span className="table__account-name">Coordinates</span>
-                        <span>{s.geometry.coordinates.map((s, item) => (
-                        <div key={item}>
-                          <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
-                        </div>
-                         ))}
-                        </span>
-                    </tr>
-                    </tbody>
-                    </table>
-                    </div>
-                    </div>
-                    );
-                })}
+      return (
+          <div key={item}>
+          <div className="table__wrap">
+          <table className="table">
+              <thead className="table__header">
+              <tr className="table__row">
+                  <th className="table__cell u-text-left">Title and Location</th>
+                  <th className="table__cell u-text-right">Magnitude</th>
+                  <th className="table__cell u-text-right">Time</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr className="table__row">
+              <td className="table__account table__cell">
+                  <span className="table__account-number">{s.properties.title}</span>
+              </td>
+              <td className="table__balance table__cell u-text-right u-font-mono">{s.properties.mag}</td>
+              <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
+              </tr>
+              <tr className="table__row">
+                  <td className="table__account table__cell">
+                  <span className="table__account-name">{s.properties.place}</span>
+                  </td>
+                  <td className="table__balance table__cell u-text-right u-font-mono"></td>
+                  <span className="table__account-name">Coordinates</span>
+                  <span>{s.geometry.coordinates.map((s, item) => (
+                  <div key={item}>
+                    <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
+                  </div>
+                    ))}
+                  </span>
+              </tr>
+              </tbody>
+              </table>
+              </div>
+              </div>
+              );
+          })}
         </>
         <h1>Top 100 Earthquakes List</h1>
         {loaded ? quakes.slice(offset, offset + PER_PAGE).map((s, item) => {
