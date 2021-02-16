@@ -4,6 +4,8 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate'; 
 import Table from 'react-bootstrap/Table';
 
+import MapContainer from './components/MapContainer';
+
 const App = () => {
 
   const [quakes, setQuakes] = useState([]);
@@ -18,7 +20,6 @@ const App = () => {
   
   const [currentPage, setCurrentPage] = useState(0);
   const [loaded, isLoading] = useState(false);
-
   
   useEffect(() => {    
     axios.get(`http://localhost:4000/quakes`)
@@ -151,6 +152,7 @@ const App = () => {
     <br />
     <button type="submit">Submit Query</button>
     <br />
+    <MapContainer />
     <br />
     </form>
     </div>
