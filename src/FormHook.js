@@ -1,6 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 
 
+// custom form hook, and other methods for condensing state down for api calls
+  // const handleSubmit = (event) => { 
+  //   const { latitude, longitude, radius, magnitude, start, end, location } = formData
+  //   event.preventDefault() 
+  //   console.log(event)
+  // }
+
+  // const handleChange = (event) => { 
+  //   setFormData({ 
+  //     [event.target.name] : event.target.value
+  //   }) 
+  // }
+
+
 const useCustomForm = ({
     initialValues,
     onSubmit

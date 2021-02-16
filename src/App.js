@@ -15,10 +15,10 @@ const App = () => {
   const [radius, setRadius] = useState(200);
   const [magnitude, setMagnitude] = useState(5);
   const [quakesData, setData] = useState([]);
+  
   const [filtered, setFiltered] = useState([]);
-  const [formData, setFormData] = useState({});
+  //const [formData, setFormData] = useState({});
   const [currentPage, setCurrentPage] = useState(0)
-
 
   useEffect(() => {    
     axios.get(`http://localhost:4000/quakes`)
@@ -40,58 +40,46 @@ const App = () => {
     //     }, [result])
     //     console.log(data)
 
-  // const handleSubmit = (event) => { 
-  //   const { latitude, longitude, radius, magnitude, start, end, location } = formData
-  //   event.preventDefault() 
-  //   console.log(event)
-  // }
-
-  // const handleChange = (event) => { 
-  //   setFormData({ 
-  //     [event.target.name] : event.target.value
-  //   }) 
-  // }
-
   const onChangeLoc = e => {
       setLocation(e.target.value);
-      console.log(e.target.value);
+      //console.log(e.target.value);
   }
 
   const onChangeStart = e => {
       setStartDate(e.target.value);
-      console.log(e.target.value);
+      //console.log(e.target.value);
   }
 
   const onChangeEnd = e => {
       setEndDate(e.target.value);
-      console.log(e.target.value);
+      //console.log(e.target.value);
   }
  ;
   const onChangeRadius = e => {
       setRadius(e.target.value);
-      console.log(e.target.value);
+      //console.log(e.target.value);
   }
 
   const onChangeLat = e => {
       setLatitude(e.target.value);
-      console.log(e.target.value)
+      //console.log(e.target.value)
   }
 
   const onChangeLong = e => {
     e.preventDefault()
       setLongitude(e.target.value);
-      console.log(e.target.value)
+      //console.log(e.target.value)
   }
 
   const onChangeMag = e => {
       setMagnitude(e.target.value);
-      console.log(e)
+      //console.log(e)
 }
  
   const fetchData = () => {
     try {
       const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
-      const res = axios.get(`${url}&starttime=2008-01-01&endtime=2020-01-02&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
+      const res = axios.get(`${url}&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
       setData(res.data.features);
       console.table(res.data.features);
       setFiltered(res.data);
@@ -142,7 +130,7 @@ const App = () => {
     </form>
     <br />
     {quakesData.map((s, item) => {
-      console.table(s.properties.place, s.properties.mag, item);
+      //console.table(s.properties.place, s.properties.mag, item);
       return (
         <>
         <div key={s.id}>
