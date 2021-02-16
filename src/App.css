@@ -1,6 +1,9 @@
-.App {
-  text-align: center;
+body {
+  text-align: center; 
+  margin: 0 auto;
+  font-weight: 800;
 }
+
 @import url('https://fonts.googleapis.com/css?family=PT+Mono|PT+Sans');
 
 :root {
@@ -36,11 +39,13 @@ input {
 
 button {
   width: 160px;
-  color: #444;
-  background: aquamarine;
-  border-radius: 8x;
+  color: white;
+  background: darkred;
+  border-radius: 8px;
   border: 1px solid #aaa;
   height: 28px;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .table {
@@ -194,3 +199,55 @@ select {
   font-size: 2rem;
 }
 
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  list-style: none;
+  margin-top: 20px;
+}
+.page {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.disabled {
+  cursor: not-allowed;
+  
+}
+.active {
+  border: 2px solid whitesmoke;
+  font-weight: bold;
+}
+.previous{
+  padding: 10px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.break{
+  padding: 10px;
+}
+.next {
+  padding: 10px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.left-cards {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  width: 40%;
+}
+
+header {
+  background: #DD00FF;
+  color: white;
+  padding: 16px;
+}
+
+form {
+  background: whitesmoke;
+}

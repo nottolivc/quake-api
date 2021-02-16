@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
+import ReactPaginate from 'react-paginate'; 
+import Table from 'react-bootstrap/Table';
 
 const App = () => {
 
@@ -13,8 +15,9 @@ const App = () => {
   const [radius, setRadius] = useState(200);
   const [magnitude, setMagnitude] = useState(5);
   const [quakesData, setData] = useState([]);
-  //const [currentPage, setCurrentPage] = useState(0);
-  //const [loaded, isLoading] = useState(false);
+  
+  const [currentPage, setCurrentPage] = useState(0);
+  const [loaded, isLoading] = useState(false);
 
   useEffect(() => {    
     axios.get(`http://localhost:4000/quakes`)
@@ -22,13 +25,13 @@ const App = () => {
           setQuakes(res.data.features);
           //quakes = res.data.features;
           console.log(res.data.features);
-          //isLoading(true)
+          isLoading(true)
         })
         .catch(err => {
           console.log(err)
         });
-        //setCurrentPage(currentPage);
-  }, [])
+        setCurrentPage(currentPage);
+  }, [currentPage])
 
   const onChangeLoc = e => {
       setLocation(e.target.value);
@@ -63,8 +66,15 @@ const App = () => {
 
   const PER_PAGE = 100;
   const offset = PER_PAGE;
-  // const pageCount = Math.ceil(quakes.length / PER_PAGE);
+  const pageCount = Math.ceil(quakes.length / PER_PAGE);
+  function handlePageClick({ selected: selectedPage }) {
+    setCurrentPage(selectedPage);
+  }
   
+  let magnitudes = []
+  let maxMagsVal;
+  let medianMag;
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
@@ -74,12 +84,28 @@ const App = () => {
     console.log(result.data)
     earthquakes.push(result.data.features)
     console.log(earthquakes)
-    console.log(magnitude);
+    console.log(result.data.features.map((s, item) => { return s.properties.mag }));
+    magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
+    console.log(magnitudes);
+    magnitudes.sort(function(a, b) { return a - b });
+    console.log(magnitudes);
+    maxMagsVal = magnitudes.pop();
+    console.log(maxMagsVal);
+    let array = magnitudes
+    console.log(array)
+    function median(array){
+      array.sort(function(a, b) {
+        return a - b;
+      });
+      var mid = array.length / 2;
+      return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2;
+    }
+    console.log(median(array))
+    medianMag = median(array)
   }
 
-
   const getTime = () => {
-    var now = new Date();
+    let now = new Date();
     return ((now.getMonth() + 1) + '-' +
             (now.getDate()) + '-' +
              now.getFullYear() + " " +
@@ -90,17 +116,16 @@ const App = () => {
              ((now.getSeconds() < 10)
                  ? ("0" + now.getSeconds())
                  : (now.getSeconds())));
-  }
-  
-  //console.log(getTime(1572987142290));
-  
+          }
+
   return (
     <>
-    <div className="App">
-    <div className="container">
-    <h1>Quakes</h1>
+    <header>
+    <h1>Quakes Query</h1>
+    </header>
+    <div className="container1">
     <form onSubmit={handleSubmit}>
-    <p>Location (Closest Country will Show)</p>
+    <p>Location (Closest Earthquakes will Show)</p>
     <input type="text" onChange={onChangeLoc} value={location} />
     <p>Start date</p>
     <input type="date" onChange={onChangeStart} value={start} />
@@ -118,50 +143,26 @@ const App = () => {
     <br />
     <br />
     <button type="submit">Submit Query</button>
-    </form>
     <br />
+    <br />
+    </form>
     </div>
     <div className="container2">
     <p>Displaying top 100 of {quakes.length}</p>
     <p>Min Magnitude: {magnitude}</p>
-    <p>Max Magnitude: </p>
+    <div>Max Magnitude: {loaded ? <p>{maxMagsVal}</p> : <p>Loading...</p>}</div>
+    <div>Median Magnitude: {loaded ? <p>{medianMag}</p> : <p>Loading...</p>}</div>
     <p>Total Number of Earthquakes: {quakes.length}</p>
     <br />
-    {/* {
-      //const minMags = Math.min(...mags)
-      //const maxMags = Math.max(...mags)
-      // const min = mags.reduce((a, b) => Math.min(a, b))
-      // console.log(min)
-      // const max = mags.reduce((a, b) => Math.max(a, b))
-      // console.log(max)
-      // const median = (mags) => {
-      //   if (mags.length === 0) return 0;
-      //     mags.sort(function(a,b){
-      //       return a-b;
-      //   });
-      //   var half = Math.floor(mags.length / 2);
-      //   if (mags.length % 2)
-      //     return mags[half];
-      //   return (mags[half - 1] + mags[half]) / 2.0;
-      // }
-      // console.log(median(mags))
-      // console.log(mags.pop())
-        <>
-        <p>Max Magnitude{quakesData.map((s, item) => {
-          let mags = []
-          mags.push(s.properties.mag)}</p
-        </>
-      )
-      })} */}
        <>
-        <h4>Query Results Data Table</h4>
+        <h4>Quake Results Data Table</h4>
         {quakesData.map((s, item) => {
             return (
                 <div key={item}>
                 <div className="table__wrap">
                 <table className="table">
                     <thead className="table__header">
-                    <tr class="table__row">
+                    <tr className="table__row">
                         <th className="table__cell u-text-left">Title and Location</th>
                         <th className="table__cell u-text-right">Magnitude</th>
                         <th className="table__cell u-text-right">Time</th>
@@ -196,21 +197,49 @@ const App = () => {
                 })}
         </>
         <h1>Top 100 Earthquakes List</h1>
-        {quakes.slice(offset, offset + PER_PAGE).map((s, item) => {
+        {loaded ? quakes.slice(offset, offset + PER_PAGE).map((s, item) => {
         return (
           <>
           <div key={s.id}>
-          <h2>{s.properties.title}</h2>
-          <p>Place {s.properties.place}</p>
-          <p>Magnitude {s.properties.mag}</p>
-          <p>Time {s.properties.time}</p>
-          <h5>Coordinates: </h5>
-          <h5>{s.geometry.coordinates.map((item) => { return item })}</h5>
+          <Table striped bordered hover size="sm">
+            <thead>
+              <tr>
+                <th>Magnitude</th>
+                <th>Title</th>
+                <th>Place</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{s.properties.mag}</td>
+                <td>{s.properties.title}</td>
+                <td>{s.properties.place}</td>
+                <td>{getTime(s.properties.time)}</td>
+                {/* <td><h5>{s.geometry.coordinates.map((item) => { return item })}</h5></td> */}
+              </tr>
+            </tbody>
+          </Table>
         </div>
         </>);
-        })}
+        }) : <>
+        <p>Loading...</p> 
+        <img style={{width: '150px', height: '120px', textAlign: 'center'}} src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-10.jpg" 
+        alt="Loading..." /> </>}
     </div>
-    </div>
+    <ReactPaginate
+      previousLabel={"Prev"}
+      nextLabel={"Next"}
+      pageCount={pageCount}
+      onPageChange={handlePageClick}
+      containerClassName={'container'}
+      previousLinkClassName={'page'}
+      breakClassName={'page'}
+      nextLinkClassName={'page'}
+      pageClassName={'page'}
+      disabledClassNae={'disabled'}
+      activeClassName={'active'}
+    />
     </>
   );
 }
