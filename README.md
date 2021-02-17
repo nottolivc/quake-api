@@ -1,4 +1,18 @@
 # Getting Started with Create React App
+# git clone repo or see deployed versions on heroku
+# run npm install & npm start for server & client dir locally to begin
+
+# Overview of current Application, potential implementations/planning next steps:
+
+# Why hooks? split state vs class OOP with SOLID design priciples
+# Redux/context api for app as size starts to increase
+# Acessability - semantic HTML and alt/aria labels bare minimum
+# Testing Jest/React testing lib for snapshot/integration, e2e testing w Cypress
+# Error handling - could use Redux form/React hook form, used try catch blocks
+# Server vs Client side routing, SEO and spped w server, no lazy loading yet
+# Edge cases beyond above? axios has cross browser support vs fetch api, others
+# ES Lint, prettier, and modules with exportable funcitons for readability
+# Design UI/UX could use Figma to import CSS vs styled comp/material ui/bootstrap for support cross browser, code splitting with webpack and minified files 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

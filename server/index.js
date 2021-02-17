@@ -41,7 +41,7 @@ app.get('/quakes', async (req, res) => {
 
 
 
-app.use('/api', createProxyMiddleware({ target: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson', changeOrigin: true }));
+app.use('/', createProxyMiddleware({ target: 'https://earthquake.usgs.gov/fdsnws/event/1', changeOrigin: true }));
 
 app.listen(PORT, () => {
  console.log(`Server is listening on port: ${PORT}`);
