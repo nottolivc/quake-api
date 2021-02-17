@@ -52,10 +52,11 @@ let magnitudes = []
 // create dynamic api request handled by state with helper functions for median and magnitude
 const handleSubmit = async (e) => {
   e.preventDefault()
-  const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
-  const result = await axios.get(`${url}&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
+  const url = 'http://localhost:4000/'
+  const result = await axios.get(`${url}query?format=geojson&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
   setData(result.data.features);
   isLoading(true);
+  console.log(result);
   earthquakes.push(result.data.features)
   magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
   magnitudes.sort(function(a, b) { return a - b });
