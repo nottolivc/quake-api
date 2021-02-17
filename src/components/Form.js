@@ -4,17 +4,17 @@ import axios from 'axios';
 const Form = (props) => {
 
 
-  const [location, setLocation] = useState('');
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [start, setStartDate] = useState('2008-01-01');
-  const [end, setEndDate] = useState('2020-01-01');
-  const [radius, setRadius] = useState(200);
-  const [magnitude, setMagnitude] = useState(0);
-  const [quakesData, setData] = useState([]);
-  const [magsVal, setMagsVal] = useState('');
-  const [loaded, isLoading] = useState(false);
-  const [medianMag, setMedian] = useState('');
+const [location, setLocation] = useState('');
+const [latitude, setLatitude] = useState(0);
+const [longitude, setLongitude] = useState(0);
+const [start, setStartDate] = useState('2008-01-01');
+const [end, setEndDate] = useState('2020-01-01');
+const [radius, setRadius] = useState(200);
+const [magnitude, setMagnitude] = useState(0);
+const [quakesData, setData] = useState([]);
+const [magsVal, setMagsVal] = useState('');
+const [loaded, isLoading] = useState(false);
+const [medianMag, setMedian] = useState('');
 
 let earthquakes = []
 
@@ -48,7 +48,8 @@ const onChangeMag = e => {
 }
 
 let magnitudes = []
-  
+
+// create dynamic api request handled by state with helper functions for median and magnitude
 const handleSubmit = async (e) => {
   e.preventDefault()
   const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson'
@@ -70,6 +71,7 @@ const handleSubmit = async (e) => {
   setMedian(median(array));
 }
 
+// create func to convert api long number time format to standard time frmt
 const getTime = (date) => {
   let now = new Date(date);
   return (
@@ -91,8 +93,8 @@ return (
     <form onSubmit={handleSubmit} className="box">
       <br />
       <br />
-        <h4>Query Earthquakes (Closest Earthquakes in Range will Show)</h4>
-        <p>Ordered by most Recent</p>
+        <h2>Query Earthquakes (Closest Earthquakes in Range will Show)</h2>
+        <h4>Ordered by most Recent</h4>
         <p>Start date</p>
         <input type="date" onChange={onChangeStart} value={start} />
         <p>End date</p>
@@ -116,6 +118,7 @@ return (
         <p>Min Magnitude: {magnitude}</p>
         <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
         <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
+        <p>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</p>
         <br />
     <h4>Quake Results Data Table</h4>
     {quakesData.map((s, item) => {
@@ -161,4 +164,5 @@ return (
     </>
     );
 }
+
 export default Form;

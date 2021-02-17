@@ -21,7 +21,6 @@ const App = () => {
     axios.get(`http://localhost:4000/quakes`)
         .then(res => {
           setQuakes(res.data.features);
-          //quakes = res.data.features;
           console.log(res.data.features);
           isLoading(true)
           navigator.geolocation.getCurrentPosition(function(position) {
