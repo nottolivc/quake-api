@@ -31,14 +31,14 @@ const useCustomForm = ({
     setValues({ ...values, [name]: value });
 };
 
-    const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleBlur = (event) => {
     const { target } = event;
     const { name } = target;
     setTouched({ ...touched, [name]: true });
     setErrors({ ...errors });
 };
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event) => {
     if (event) event.preventDefault();
     setErrors({ ...errors });
     onSubmit({ values, errors });
