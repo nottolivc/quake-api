@@ -12,14 +12,7 @@ const App = () => {
 
   const [quakes, setQuakes] = useState([]);
   const [location, setLocation] = useState('');
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-  const [start, setStartDate] = useState('2008-01-01');
-  const [end, setEndDate] = useState('2020-01-01');
-  const [radius, setRadius] = useState(200);
   const [magnitude, setMagnitude] = useState(0);
-  const [quakesData, setData] = useState([]);
-  const [magsVal, setMagsVal] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [loaded, isLoading] = useState(false);
   const [medianMag, setMedian] = useState('');
@@ -28,7 +21,6 @@ const App = () => {
     axios.get(`http://localhost:4000/quakes`)
         .then(res => {
           setQuakes(res.data.features);
-          //quakes = res.data.features;
           console.log(res.data.features);
           isLoading(true)
           navigator.geolocation.getCurrentPosition(function(position) {

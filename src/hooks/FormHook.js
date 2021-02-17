@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 
-// custom form hook, and other methods for condensing state down for api calls
+// custom form hook, and other methods for condensing state down for api calls?
   // const handleSubmit = (event) => { 
   //   const { latitude, longitude, radius, magnitude, start, end, location } = formData
   //   event.preventDefault() 
@@ -15,15 +15,15 @@ import { useState, useEffect, useRef } from "react";
   // }
 
 
-const useCustomForm = ({
+const formHook = ({
     initialValues,
     onSubmit
 }) => {
     const [values, setValues] = useState(initialValues || {});
     const [errors, setErrors] = useState({});
     const [touched, setTouched] = useState({});
-    const [onSubmitting, setOnSubmitting] = useState<boolean>(false);
-    const [onBlur, setOnBlur] = useState<boolean>(false);
+    const [onSubmitting, setOnSubmitting] = useState(false);
+    const [onBlur, setOnBlur] = useState(false);
 
     const formRendered = useRef(true);
 
@@ -38,21 +38,21 @@ const useCustomForm = ({
     formRendered.current = false;
     }, [initialValues]);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event) => {
     const { target } = event;
     const { name, value } = target;
     event.persist();
     setValues({ ...values, [name]: value });
 };
 
-    const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleBlur = (event) => {
     const { target } = event;
     const { name } = target;
     setTouched({ ...touched, [name]: true });
     setErrors({ ...errors });
 };
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event) => {
     if (event) event.preventDefault();
     setErrors({ ...errors });
     onSubmit({ values, errors });
@@ -68,4 +68,4 @@ const useCustomForm = ({
     };
 };
 
-export default useCustomForm;
+export default formHook;

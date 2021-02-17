@@ -250,6 +250,9 @@ header {
   color: white;
   padding: 16px;
   border: 1px solid #aaa;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 1rem;
 }
 
 .box {
@@ -266,6 +269,10 @@ header {
   margin: 40px auto;
   background: white;
   border-radius: 5px;
+}
+
+form {
+  font-size: 1rem;
 }
 
 body {
