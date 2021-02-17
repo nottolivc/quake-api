@@ -39,19 +39,8 @@ app.get('/quakes', async (req, res) => {
     });
 });
 
-// const resp = axios({
-//   method: "GET",
-//   url: `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson`,
-//   params: {
-//     magnitude: 1,
-//     longitude: 100,
-//     latitude: 37,
-//     radius: 200,
-//     starttime: '2008-01-01',
-//     endtime: '2020-01-02',
-//     location: 'China',
-//   },
-// });
+
+
 app.use('/api', createProxyMiddleware({ target: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson', changeOrigin: true }));
 
 app.listen(PORT, () => {

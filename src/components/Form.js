@@ -4,18 +4,17 @@ import axios from 'axios';
 const Form = (props) => {
 
 
-const [quakes, setQuakes] = useState([]);
-const [loaded, isLoading] = useState(false);
-const [medianMag, setMedian] = useState('');
-const [location, setLocation] = useState('');
-const [latitude, setLatitude] = useState(37);
-const [longitude, setLongitude] = useState(100);
-const [start, setStartDate] = useState('2008-01-02');
-const [end, setEndDate] = useState('2020-01-01');
-const [radius, setRadius] = useState(200);
-const [magnitude, setMagnitude] = useState(5);
-const [quakesData, setData] = useState([]);
-const [magsVal, setMagsVal] = useState('');
+  const [location, setLocation] = useState('');
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [start, setStartDate] = useState('2008-01-01');
+  const [end, setEndDate] = useState('2020-01-01');
+  const [radius, setRadius] = useState(200);
+  const [magnitude, setMagnitude] = useState(0);
+  const [quakesData, setData] = useState([]);
+  const [magsVal, setMagsVal] = useState('');
+  const [loaded, isLoading] = useState(false);
+  const [medianMag, setMedian] = useState('');
 
 let earthquakes = []
 
@@ -71,8 +70,8 @@ const handleSubmit = async (e) => {
   setMedian(median(array));
 }
 
-const getTime = () => {
-  let now = new Date();
+const getTime = (date) => {
+  let now = new Date(date);
   return (
     (now.getMonth() + 1) + '-' +
     (now.getDate()) + '-' +
@@ -92,8 +91,8 @@ return (
     <form onSubmit={handleSubmit} className="box">
       <br />
       <br />
-        <p>Location (Closest Earthquakes will Show)</p>
-        <input type="text" onChange={onChangeLoc} value={location} />
+        <h4>Query Earthquakes (Closest Earthquakes in Range will Show)</h4>
+        <p>Ordered by most Recent</p>
         <p>Start date</p>
         <input type="date" onChange={onChangeStart} value={start} />
         <p>End date</p>

@@ -2,25 +2,33 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate'; 
-import Form from './components/Form';
 import Table from 'react-bootstrap/Table';
+
+import Form from './components/Form';
 import Header from './components/Header';
+
 
 const App = () => {
 
   const [quakes, setQuakes] = useState([]);
+  const [location, setLocation] = useState('');
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [start, setStartDate] = useState('2008-01-01');
+  const [end, setEndDate] = useState('2020-01-01');
+  const [radius, setRadius] = useState(200);
+  const [magnitude, setMagnitude] = useState(0);
+  const [quakesData, setData] = useState([]);
+  const [magsVal, setMagsVal] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [loaded, isLoading] = useState(false);
   const [medianMag, setMedian] = useState('');
-  const [quakesData, setData] = useState([]);
-  const [magsVal, setMagsVal] = useState('');
-  const [magnitude, setMagnitude] = useState(5);
-
 
   useEffect(() => {    
     axios.get(`http://localhost:4000/quakes`)
         .then(res => {
           setQuakes(res.data.features);
+          //quakes = res.data.features;
           console.log(res.data.features);
           isLoading(true)
           navigator.geolocation.getCurrentPosition(function(position) {
@@ -32,7 +40,8 @@ const App = () => {
           console.log(err)
         });
         setCurrentPage(currentPage);
-  }, [currentPage]);
+  }, [currentPage])
+  let earthquakes = []
 
   const PER_PAGE = 100;
   const offset = PER_PAGE;
@@ -41,6 +50,8 @@ const App = () => {
     setCurrentPage(selectedPage);
   }
   
+  let magnitudes = []
+
   const getTime = () => {
     let now = new Date();
     return ((now.getMonth() + 1) + '-' +
@@ -60,13 +71,11 @@ const App = () => {
     <Header />
     <Form />
     <div className="container2">
-        <br />
-        <h1>Top 100 Earthquakes List</h1>
-        <p>Displaying top 100 of {quakes.length}</p>
-        <p>Total Number of Earthquakes: {quakes.length}</p>
-
+    <p>Displaying top 100 of {quakes.length}</p>
+    <p>Total Number of Earthquakes: {quakes.length}</p>
+    <br />
+        <h1>Top 100 Recent Earthquakes List</h1>
         {loaded ? quakes.slice(offset, offset + PER_PAGE).map((s, item) => {
-        
         return (
           <>
           <div key={s.id}>
@@ -96,7 +105,6 @@ const App = () => {
         <img style={{width: '150px', height: '120px', textAlign: 'center'}} src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-10.jpg" 
         alt="Loading..." /> </>}
     </div>
-
     <ReactPaginate
       previousLabel={"Prev"}
       nextLabel={"Next"}
