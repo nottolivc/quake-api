@@ -52,7 +52,8 @@ let magnitudes = []
 // create dynamic api request handled by state with helper functions for median and magnitude
 const handleSubmit = async (e) => {
   e.preventDefault()
-  const url = 'http://localhost:4000/'
+  // works with base url http://localhost:4000 when running server locally
+  const url = 'https://blooming-basin-73834.herokuapp.com/'
   const result = await axios.get(`${url}query?format=geojson&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
   setData(result.data.features);
   isLoading(true);

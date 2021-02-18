@@ -18,7 +18,9 @@ const App = () => {
   const [medianMag, setMedian] = useState('');
 
   useEffect(() => {    
-    axios.get(`http://localhost:4000/quakes`)
+    //http://localhost:4000/quakes will work as well as long as server installed & running locally
+    // deployed api version here
+    axios.get(`https://blooming-basin-73834.herokuapp.com/quakes`)
         .then(res => {
           setQuakes(res.data.features);
           console.log(res.data.features);
