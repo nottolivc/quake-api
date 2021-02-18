@@ -1,9 +1,10 @@
 # Quake Query - Getting Started 
+### (and next steps to refactor code)
+
 ## git clone repo or see deployed frontend on netlify, server must be running on localhost for requests
 ### run npm install & npm start for server & client dir locally to begin
 
 ## Overview of current Application, potential implementations/planning next steps:
-
 - Why hooks? split state vs class OOP with SOLID design priciples
 - Redux/context provider for app scalability if size increases 
 - Accessibility - semantic HTML and alt/aria labels for bare minimum
@@ -14,6 +15,7 @@
 - ES Lint, prettier, and modules with exportable funcs for cleaner modular code
 - Design UI/UX could use Figma to import CSS vs styled components/material ui/bootstrap for UI support cross browser, code splitting with webpack and minified files 
 - Create more server endpoints, and add ORM with user auth to save state?
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

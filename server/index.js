@@ -2,8 +2,8 @@ const express = require('express');
 const axios = require('axios');
 const PORT = 4000;
 const app = express();
-const fetch = require('node-fetch');
 const https = require('https');
+
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const request = require('request');
 const httpProxy = require('express-http-proxy')

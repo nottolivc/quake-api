@@ -126,13 +126,12 @@ return (
         <p>Min Magnitude: {magnitude}</p>
         <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
         <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
-        <p>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</p>
+        <div>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</div>
         <br />
     <h4>Quake Results Data Table</h4>
     {quakesData.map((s, item) => {
     
     return (
-      <>
       <div key={item}>
       <div className="table__wrap">
       <table className="table">
