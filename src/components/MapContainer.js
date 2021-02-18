@@ -23,6 +23,7 @@ const MapContainer = (props) => {
   console.log(currentPosition);
   return (
      <LoadScript googleMapsApiKey='AIzaSyAYzDz_ckVUDgSrY-qWMjgQ0LRwnSUl5-I'>
+        {/* key above is public, no need to put in .ENV file */}
         <GoogleMap
           mapContainerStyle={mapStyles}
           zoom={13}
