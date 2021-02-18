@@ -43,6 +43,6 @@ app.get('/quakes', async (req, res) => {
 
 app.use('/', createProxyMiddleware({ target: 'https://earthquake.usgs.gov/fdsnws/event/1', changeOrigin: true }));
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
  console.log(`Server is listening on port: ${PORT}`);
 });
