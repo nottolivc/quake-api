@@ -6,9 +6,9 @@ import Table from 'react-bootstrap/Table';
 
 import Form from './components/Form';
 import Header from './components/Header';
+import MapContainer from './components/MapContainer';
 
-
-const App = () => {
+const App = (props) => {
 
   const [quakes, setQuakes] = useState([]);
   const [location, setLocation] = useState('');
@@ -17,15 +17,22 @@ const App = () => {
   const [loaded, isLoading] = useState(false);
   const [medianMag, setMedian] = useState('');
 
+  let latitude;
+  let longitude;
+
   useEffect(() => {    
-    axios.get(`http://localhost:4000/quakes`)
+    //http://localhost:4000/quakes will work as well as long as server installed & running locally
+    // deployed api version here
+    axios.get(`https://blooming-basin-73834.herokuapp.com/quakes`)
         .then(res => {
           setQuakes(res.data.features);
           console.log(res.data.features);
           isLoading(true)
           navigator.geolocation.getCurrentPosition(function(position) {
             console.log("Latitude is :", position.coords.latitude);
+            latitude = position.coords.latitude;
             console.log("Longitude is :", position.coords.longitude);
+            longitude = position.coords.longitude;
           });
         })
         .catch(err => {
@@ -43,7 +50,7 @@ const App = () => {
   }
   
   let magnitudes = []
-
+  // function to convert time to readable format, O(n)
   const getTime = () => {
     let now = new Date();
     return ((now.getMonth() + 1) + '-' +
@@ -62,12 +69,14 @@ const App = () => {
     <>
     <Header />
     <Form />
+    <MapContainer latitude={latitude} longtitude={longitude} {...props} />
     <div className="container2">
     <p>Displaying top 100 of {quakes.length}</p>
     <p>Total Number of Earthquakes: {quakes.length}</p>
     <br />
         <h1>Top 100 Recent Earthquakes List</h1>
         {loaded ? quakes.slice(offset, offset + PER_PAGE).map((s, item) => {
+        
         return (
           <>
           <div key={s.id}>
@@ -86,7 +95,7 @@ const App = () => {
                 <td>{s.properties.title}</td>
                 <td>{s.properties.place}</td>
                 <td>{getTime(s.properties.time)}</td>
-                {/* <td><h5>{s.geometry.coordinates.map((item) => { return item })}</h5></td> */}
+                <td><h5>{s.geometry.coordinates.map((item) => { return item })}</h5></td>
               </tr>
             </tbody>
           </Table>
@@ -94,7 +103,7 @@ const App = () => {
         </>);
         }) : <>
         <p>Loading...</p> 
-        <img style={{width: '150px', height: '120px', textAlign: 'center'}} src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-10.jpg" 
+        <img style={{width: '150px', height: '120px', margin: '0 auto'}} src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-10.jpg" 
         alt="Loading..." /> </>}
     </div>
     <ReactPaginate

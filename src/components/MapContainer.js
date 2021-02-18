@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
-const MapContainer = () => {
-  
+const MapContainer = (props) => {
+  const [ currentPosition, setCurrentPosition ] = useState({});
+
   const mapStyles = {        
-    height: "100vh",
-    width: "100%"};
+    height: "40vh",
+    width: "100%", textAlign: 'center'};
   
-  const defaultCenter = {
-    lat: 41.3851, lng: 2.1734
-  }
+    const success = position => {
+      const currentPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      setCurrentPosition(currentPosition);
+    };
+    
+    useEffect(() => {
+      navigator.geolocation.getCurrentPosition(success);
+    }, [])
   
+  console.log(currentPosition);
   return (
-     <LoadScript googleMapsApiKey='process.env.MAP_KEY'>
+     <LoadScript googleMapsApiKey='AIzaSyAYzDz_ckVUDgSrY-qWMjgQ0LRwnSUl5-I'>
+        {/* key above is public, no need to put in .ENV file */}
         <GoogleMap
           mapContainerStyle={mapStyles}
           zoom={13}
-          center={defaultCenter}
+          center={currentPosition}
         />
      </LoadScript>
   )
 }
-​
 export default MapContainer;

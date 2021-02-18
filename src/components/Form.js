@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import MapContainer from './MapContainer';
 
 const Form = (props) => {
-
 
 const [location, setLocation] = useState('');
 const [latitude, setLatitude] = useState(0);
@@ -15,6 +15,28 @@ const [quakesData, setData] = useState([]);
 const [magsVal, setMagsVal] = useState('');
 const [loaded, isLoading] = useState(false);
 const [medianMag, setMedian] = useState('');
+  
+const updateLat = ({ target }) => {
+    var { value } = target;
+    value = value.replace(/[^0-9-]+/g, '');
+    var pattern = /([-])?([0-9]+)/g;
+    var matches = value.match(pattern);
+    if(matches){
+      value = matches[0];
+    }
+    setLatitude(value);
+  }
+
+const updateLong = ({ target }) => {
+    var { value } = target;
+    value = value.replace(/[^0-9-]+/g, '');
+    var pattern = /([-])?([0-9]+)/g;
+    var matches = value.match(pattern);
+    if(matches){
+      value = matches[0];
+    }
+    setLongitude(value);
+}
 
 let earthquakes = []
 
@@ -52,16 +74,23 @@ let magnitudes = []
 // create dynamic api request handled by state with helper functions for median and magnitude
 const handleSubmit = async (e) => {
   e.preventDefault()
-  const url = 'http://localhost:4000/'
+  // works with base url http://localhost:4000 when running server locally
+  const url = 'https://blooming-basin-73834.herokuapp.com/'
   const result = await axios.get(`${url}query?format=geojson&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
   setData(result.data.features);
   isLoading(true);
   console.log(result);
+  // O(n) add earthquakes from search
   earthquakes.push(result.data.features)
+
   magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
+  // O((n)) sort and pop O(1) for storing max magnitude value
+  
   magnitudes.sort(function(a, b) { return a - b });
   setMagsVal(magnitudes.pop());
   let array = magnitudes
+  
+  // ~O(log(n)) median array value function 
   function median(array){
     array.sort(function(a, b) {
       return a - b;
@@ -72,7 +101,7 @@ const handleSubmit = async (e) => {
   setMedian(median(array));
 }
 
-// create func to convert api long number time format to standard time frmt
+// create func to convert api long number time format to standard time form
 const getTime = (date) => {
   let now = new Date(date);
   return (
@@ -103,9 +132,9 @@ return (
         <p>Min magnitude (0-10)</p>
         <input type="number" onChange={onChangeMag} value={magnitude} />
         <p>Latitude (-90, 90)</p>
-        <input type="number" onChange={onChangeLat} value={latitude} />
+        <input onChange={updateLat} value={latitude} />
         <p>Longitude (-180, 180)</p>
-        <input type="number" onChange={onChangeLong} value={longitude} />
+        <input onChange={updateLong} value={longitude} />
         <br />
         <p>Radius (km)</p>
         <input type="number" onChange={onChangeRadius} value={radius} />
@@ -119,13 +148,22 @@ return (
         <p>Min Magnitude: {magnitude}</p>
         <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
         <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
-        <p>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</p>
+        <div>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</div>
         <br />
     <h4>Quake Results Data Table</h4>
+
     {quakesData.map((s, item) => {
-    
+      // store coordinates of earthquakes query
+      console.log(s.geometry.coordinates.map((item) => { return item }))
+      let coordinates = []
+      coordinates.push(s.geometry.coordinates.map((item) => { return item}))
+      console.log(coordinates[0][1])
+      let latlong = coordinates[0][1];
+
     return (
       <div key={item}>
+      <br />
+      <br />
       <div className="table__wrap">
       <table className="table">
           <thead className="table__header">
@@ -141,26 +179,26 @@ return (
               <span className="table__account-number">{s.properties.title}</span>
           </td>
           <td className="table__balance table__cell u-text-right u-font-mono">{s.properties.mag}</td>
-          <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
-          </tr>
-          <tr className="table__row">
-              <td className="table__account table__cell">
-              <span className="table__account-name">{s.properties.place}</span>
-              </td>
-              <td className="table__balance table__cell u-text-right u-font-mono"></td>
-              <span className="table__account-name">Coordinates</span>
-              <span>{s.geometry.coordinates.map((s, item) => (
-              <div key={item}>
-                <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
-              </div>
-                ))}
-              </span>
-          </tr>
-          </tbody>
+              <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
+              </tr>
+              <tr className="table__row">
+                  <td className="table__account table__cell">
+                  <span className="table__account-name">{s.properties.place}</span>
+                  </td>
+                  <td className="table__balance table__cell u-text-right u-font-mono"></td>
+                  <span className="table__account-name">Coordinates</span>
+                  <span>{s.geometry.coordinates.map((s, item) => (
+                  <div key={item}>
+                    <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
+                  </div>
+                  ))}
+                </span>
+              </tr>
+              </tbody>
           </table>
           </div>
-          </div>
-          );
+        </div>
+        );
       })}
     </>
     );
