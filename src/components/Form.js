@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import MapContainer from './MapContainer';
 
 const Form = (props) => {
-
 
 const [location, setLocation] = useState('');
 const [latitude, setLatitude] = useState(0);
@@ -15,6 +15,28 @@ const [quakesData, setData] = useState([]);
 const [magsVal, setMagsVal] = useState('');
 const [loaded, isLoading] = useState(false);
 const [medianMag, setMedian] = useState('');
+  
+const updateLat = ({ target }) => {
+    var { value } = target;
+    value = value.replace(/[^0-9-]+/g, '');
+    var pattern = /([-])?([0-9]+)/g;
+    var matches = value.match(pattern);
+    if(matches){
+      value = matches[0];
+    }
+    setLatitude(value);
+  }
+
+const updateLong = ({ target }) => {
+    var { value } = target;
+    value = value.replace(/[^0-9-]+/g, '');
+    var pattern = /([-])?([0-9]+)/g;
+    var matches = value.match(pattern);
+    if(matches){
+      value = matches[0];
+    }
+    setLongitude(value);
+}
 
 let earthquakes = []
 
@@ -60,7 +82,6 @@ const handleSubmit = async (e) => {
   console.log(result);
   // O(n) add earthquakes from search
   earthquakes.push(result.data.features)
-
 
   magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
   // O((n)) sort and pop O(1) for storing max magnitude value
@@ -111,9 +132,9 @@ return (
         <p>Min magnitude (0-10)</p>
         <input type="number" onChange={onChangeMag} value={magnitude} />
         <p>Latitude (-90, 90)</p>
-        <input type="number" onChange={onChangeLat} value={latitude} />
+        <input onChange={updateLat} value={latitude} />
         <p>Longitude (-180, 180)</p>
-        <input type="number" onChange={onChangeLong} value={longitude} />
+        <input onChange={updateLong} value={longitude} />
         <br />
         <p>Radius (km)</p>
         <input type="number" onChange={onChangeRadius} value={radius} />
@@ -130,10 +151,19 @@ return (
         <div>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</div>
         <br />
     <h4>Quake Results Data Table</h4>
+
     {quakesData.map((s, item) => {
-    
+      // store coordinates of earthquakes query
+      console.log(s.geometry.coordinates.map((item) => { return item }))
+      let coordinates = []
+      coordinates.push(s.geometry.coordinates.map((item) => { return item}))
+      console.log(coordinates[0][1])
+      let latlong = coordinates[0][1];
+
     return (
       <div key={item}>
+      <br />
+      <br />
       <div className="table__wrap">
       <table className="table">
           <thead className="table__header">
