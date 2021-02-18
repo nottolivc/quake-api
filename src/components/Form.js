@@ -74,48 +74,53 @@ let magnitudes = []
 // create dynamic api request handled by state with helper functions for median and magnitude
 const handleSubmit = async (e) => {
   e.preventDefault()
-  // works with base url http://localhost:4000 when running server locally
-  const url = 'https://blooming-basin-73834.herokuapp.com/'
-  const result = await axios.get(`${url}query?format=geojson&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`);       
-  setData(result.data.features);
-  isLoading(true);
-  console.log(result);
-  // O(n) add earthquakes from search
-  earthquakes.push(result.data.features)
+  try {
+      // works with base url http://localhost:4000 when running server locally
+      const url = 'https://blooming-basin-73834.herokuapp.com/'
+      const result = await axios.get(`${url}query?format=geojson&starttime=${start}&endtime=${end}&minmagnitude=${magnitude}&minmagnitude=${5}&latitude=${latitude}&longitude=${longitude}&maxradiuskm=${radius}`)       
+      setData(result.data.features);
+      isLoading(true);
+      console.log(result);
+      // O(n) add earthquakes from search
+      earthquakes.push(result.data.features)
 
-  magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
-  // O((n)) sort and pop O(1) for storing max magnitude value
-  
-  magnitudes.sort(function(a, b) { return a - b });
-  setMagsVal(magnitudes.pop());
-  let array = magnitudes
-  
-  // ~O(log(n)) median array value function 
-  function median(array){
-    array.sort(function(a, b) {
-      return a - b;
-    });
-    var mid = array.length / 2;
-    return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2;
-  }
-  setMedian(median(array));
-}
+      magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
+      // O((n)) sort and pop O(1) for storing max magnitude value
+      
+      magnitudes.sort(function(a, b) { return a - b });
+      setMagsVal(magnitudes.pop());
+      let array = magnitudes
+      
+      // ~O(log(n)) median array value function 
+      function median(array){
+        array.sort(function(a, b) {
+          return a - b;
+        });
+        var mid = array.length / 2;
+        return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2;
+        }
+          setMedian(median(array));
+        } catch (error) {
+          console.log(error);
+          alert(error);
+      }
+    }
 
-// create func to convert api long number time format to standard time form
-const getTime = (date) => {
-  let now = new Date(date);
-  return (
-    (now.getMonth() + 1) + '-' +
-    (now.getDate()) + '-' +
-      now.getFullYear() + " " +
-      now.getHours() + '-' +
-      ((now.getMinutes() < 10)
-          ? ("0" + now.getMinutes())
-          : (now.getMinutes())) + ':' +
-      ((now.getSeconds() < 10)
-          ? ("0" + now.getSeconds())
-          : (now.getSeconds())));
-  }
+    // create func to convert api long number time format to standard time form
+    const getTime = (date) => {
+      let now = new Date(date);
+      return (
+        (now.getMonth() + 1) + '-' +
+        (now.getDate()) + '-' +
+          now.getFullYear() + " " +
+          now.getHours() + '-' +
+          ((now.getMinutes() < 10)
+              ? ("0" + now.getMinutes())
+              : (now.getMinutes())) + ':' +
+          ((now.getSeconds() < 10)
+              ? ("0" + now.getSeconds())
+              : (now.getSeconds())));
+      }
 
 return (    
     <>
