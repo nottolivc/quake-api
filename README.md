@@ -13,7 +13,7 @@
 - Edge cases beyond above? axios has cross browser support vs fetch api
 - ES Lint, prettier, and modules with exportable funcs for cleaner modular code
 - Design UI/UX could use Figma to import CSS vs styled components/material ui/bootstrap for UI support cross browser, code splitting with webpack and minified files 
-
+- Create more server endpoints, and add ORM with user auth to save state?
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

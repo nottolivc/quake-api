@@ -16,7 +16,7 @@ app.all('/*', function(req, res, next) {
 });
 
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.send('<h1>Welcome to the Quake API</h1>');
 });
 
@@ -43,6 +43,6 @@ app.get('/quakes', async (req, res) => {
 
 app.use('/', createProxyMiddleware({ target: 'https://earthquake.usgs.gov/fdsnws/event/1', changeOrigin: true }));
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(PORT || 5000, () => {
  console.log(`Server is listening on port: ${PORT}`);
 });
