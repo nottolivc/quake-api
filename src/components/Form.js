@@ -135,7 +135,7 @@ return (
         <p>End date</p>
         <input type="date" onChange={onChangeEnd} value={end} />
         <p>Min magnitude (0-10)</p>
-        <input type="number" onChange={onChangeMag} value={magnitude} />
+        <input type="range" min="0" max="10" onChange={onChangeMag} value={magnitude} />
         <p>Latitude (-90, 90)</p>
         <input onChange={updateLat} value={latitude} />
         <p>Longitude (-180, 180)</p>
