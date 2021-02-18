@@ -26,8 +26,7 @@ body {
 }
 
 .container2 {
-  display: flex;
-  flex-flow: column wrap;
+  margin: 0 auto;
 }
 
 input {
@@ -278,4 +277,11 @@ form {
 body {
   background: #EEF2F7;
   width: 100%;
+  margin: 0 auto;
+}
+
+.main {
+  color: #EEF2F7;
+  /* background: rgba(98,38,116,1); */
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(98,38,116,1) 0%, rgba(253,34,255,1) 100%, rgba(0,212,255,1) 100%);
 }
