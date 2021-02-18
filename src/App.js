@@ -20,10 +20,10 @@ const App = (props) => {
   let latitude;
   let longitude;
 
-  useEffect(() => {    
+  useEffect( async () => {    
     //http://localhost:4000/quakes will work as well as long as server installed & running locally
     // deployed api version here
-    axios.get(`https://blooming-basin-73834.herokuapp.com/quakes`)
+    await axios.get(`https://blooming-basin-73834.herokuapp.com/quakes`)
         .then(res => {
           setQuakes(res.data.features);
           console.log(res.data.features);
@@ -36,7 +36,7 @@ const App = (props) => {
           });
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
         });
         setCurrentPage(currentPage);
   }, [currentPage])
@@ -51,8 +51,8 @@ const App = (props) => {
   
   let magnitudes = []
   // function to convert time to readable format, O(n)
-  const getTime = () => {
-    let now = new Date();
+  const getTime = (date) => {
+    let now = new Date(date);
     return ((now.getMonth() + 1) + '-' +
             (now.getDate()) + '-' +
              now.getFullYear() + " " +
@@ -68,18 +68,22 @@ const App = (props) => {
   return (
     <>
     <Header />
+    <h4>Allow browser acccess to your location and search for activity near you</h4>
+    <p>{latitude}</p> <p>{longitude}</p>
     <Form />
+    <br />
     <MapContainer latitude={latitude} longtitude={longitude} {...props} />
+    <br />
     <div className="container2">
     <p>Displaying top 100 of {quakes.length}</p>
     <p>Total Number of Earthquakes: {quakes.length}</p>
     <br />
         <h1>Top 100 Recent Earthquakes List</h1>
-        {loaded ? quakes.slice(offset, offset + PER_PAGE).map((s, item) => {
+        {loaded ? quakes.slice(offset, offset + PER_PAGE).map((quake, item) => {
         
         return (
           <>
-          <div key={s.id}>
+          <div key={item}>
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
@@ -91,11 +95,11 @@ const App = (props) => {
             </thead>
             <tbody>
               <tr>
-                <td>{s.properties.mag}</td>
-                <td>{s.properties.title}</td>
-                <td>{s.properties.place}</td>
-                <td>{getTime(s.properties.time)}</td>
-                <td><h5>{s.geometry.coordinates.map((item) => { return item })}</h5></td>
+                <td>{quake.properties.mag}</td>
+                <td>{quake.properties.title}</td>
+                <td>{quake.properties.place}</td>
+                <td>{getTime(quake.properties.time)}</td>
+                {/* <td><h5>Coordinates: {quake.geometry.coordinates.map((item) => { return item })}</h5></td> */}
               </tr>
             </tbody>
           </Table>

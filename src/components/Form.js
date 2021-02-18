@@ -9,7 +9,7 @@ const [latitude, setLatitude] = useState(0);
 const [longitude, setLongitude] = useState(0);
 const [start, setStartDate] = useState('2008-01-01');
 const [end, setEndDate] = useState('2020-01-01');
-const [radius, setRadius] = useState(200);
+const [radius, setRadius] = useState(400);
 const [magnitude, setMagnitude] = useState(0);
 const [quakesData, setData] = useState([]);
 const [magsVal, setMagsVal] = useState('');
@@ -145,18 +145,20 @@ return (
         <br />
     </form>
     </div>
-        <p>Min Magnitude: {magnitude}</p>
-        <div>Max Magnitude: {loaded ? <p>{[magsVal]}</p> : <p>Loading...</p>}</div>
-        <div>Median Magnitude: {loaded ? <p>{[medianMag]}</p> : <p>Loading...</p>}</div>
-        <div>{loaded ? <p>Search Results: {quakesData.length}</p> : <p>Loading...</p>}</div>
+    <section className="main">
         <br />
-    <h4>Quake Results Data Table</h4>
-
-    {quakesData.map((s, item) => {
+        <div><h3>Max Magnitude:</h3> {loaded ? <p>{[magsVal]}</p> : <p>Start Search...</p>}</div>
+        <div><h3>Median Magnitude:</h3> {loaded ? <p>{[medianMag]}</p> : <p>Start Search...</p>}</div>
+        <div>{loaded ? <h3>Search Results: {quakesData.length}</h3> : <p>Loading...</p>}</div>
+        <br />
+    </section>
+    <h2>Quake Results Data Table</h2>
+    <p>Min Magnitude: {magnitude}</p>
+    {quakesData.map((quake, item) => {
       // store coordinates of earthquakes query
-      console.log(s.geometry.coordinates.map((item) => { return item }))
+      console.log(quake.geometry.coordinates.map((item) => { return item }))
       let coordinates = []
-      coordinates.push(s.geometry.coordinates.map((item) => { return item}))
+      coordinates.push(quake.geometry.coordinates.map((item) => { return item}))
       console.log(coordinates[0][1])
       let latlong = coordinates[0][1];
 
@@ -176,20 +178,20 @@ return (
           <tbody>
           <tr className="table__row">
           <td className="table__account table__cell">
-              <span className="table__account-number">{s.properties.title}</span>
+              <span className="table__account-number">{quake.properties.title}</span>
           </td>
-          <td className="table__balance table__cell u-text-right u-font-mono">{s.properties.mag}</td>
-              <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
+          <td className="table__balance table__cell u-text-right u-font-mono">{quake.properties.mag}</td>
+              <td className="table__limit table__cell u-text-right u-font-mono">{getTime(quake.properties.time)}</td>
               </tr>
               <tr className="table__row">
                   <td className="table__account table__cell">
-                  <span className="table__account-name">{s.properties.place}</span>
+                  <span className="table__account-name">{quake.properties.place}</span>
                   </td>
                   <td className="table__balance table__cell u-text-right u-font-mono"></td>
                   <span className="table__account-name">Coordinates</span>
-                  <span>{s.geometry.coordinates.map((s, item) => (
+                  <span>{quake.geometry.coordinates.map((coord, item) => (
                   <div key={item}>
-                    <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
+                    <td className="table__limit table__cell u-text-right u-font-mono">{coord}</td>
                   </div>
                   ))}
                 </span>
