@@ -1,11 +1,11 @@
 # Quake Query - Getting Started 
-## git clone repo or see deployed versions on heroku
+## git clone repo or see deployed frontend on netlify, server must be running on localhost for requests
 ### run npm install & npm start for server & client dir locally to begin
 
 ## Overview of current Application, potential implementations/planning next steps:
 
 - Why hooks? split state vs class OOP with SOLID design priciples
-- Redux/context provider for app as size starts to increase
+- Redux/context provider for app scalability if size increases 
 - Accessibility - semantic HTML and alt/aria labels for bare minimum
 - Testing Jest/React testing lib for snapshot/integration, e2e testing w Cypress
 - Error handling - could use Redux form/React hook form, used try catch blocks

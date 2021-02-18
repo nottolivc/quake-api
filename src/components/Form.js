@@ -57,11 +57,18 @@ const handleSubmit = async (e) => {
   setData(result.data.features);
   isLoading(true);
   console.log(result);
+  // O(n) add earthquakes from search
   earthquakes.push(result.data.features)
+
+
   magnitudes = result.data.features.map((s, item) => { return s.properties.mag });
+  // O((n)) sort and pop O(1) for storing max magnitude value
+  
   magnitudes.sort(function(a, b) { return a - b });
   setMagsVal(magnitudes.pop());
   let array = magnitudes
+  
+  // ~O(log(n)) median array value function 
   function median(array){
     array.sort(function(a, b) {
       return a - b;
@@ -72,7 +79,7 @@ const handleSubmit = async (e) => {
   setMedian(median(array));
 }
 
-// create func to convert api long number time format to standard time frmt
+// create func to convert api long number time format to standard time form
 const getTime = (date) => {
   let now = new Date(date);
   return (
@@ -125,6 +132,7 @@ return (
     {quakesData.map((s, item) => {
     
     return (
+      <>
       <div key={item}>
       <div className="table__wrap">
       <table className="table">
@@ -141,26 +149,26 @@ return (
               <span className="table__account-number">{s.properties.title}</span>
           </td>
           <td className="table__balance table__cell u-text-right u-font-mono">{s.properties.mag}</td>
-          <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
-          </tr>
-          <tr className="table__row">
-              <td className="table__account table__cell">
-              <span className="table__account-name">{s.properties.place}</span>
-              </td>
-              <td className="table__balance table__cell u-text-right u-font-mono"></td>
-              <span className="table__account-name">Coordinates</span>
-              <span>{s.geometry.coordinates.map((s, item) => (
-              <div key={item}>
-                <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
-              </div>
-                ))}
-              </span>
-          </tr>
-          </tbody>
+              <td className="table__limit table__cell u-text-right u-font-mono">{getTime(s.properties.time)}</td>
+              </tr>
+              <tr className="table__row">
+                  <td className="table__account table__cell">
+                  <span className="table__account-name">{s.properties.place}</span>
+                  </td>
+                  <td className="table__balance table__cell u-text-right u-font-mono"></td>
+                  <span className="table__account-name">Coordinates</span>
+                  <span>{s.geometry.coordinates.map((s, item) => (
+                  <div key={item}>
+                    <td className="table__limit table__cell u-text-right u-font-mono">{s}</td>
+                  </div>
+                  ))}
+                </span>
+              </tr>
+              </tbody>
           </table>
           </div>
-          </div>
-          );
+        </div>
+        );
       })}
     </>
     );

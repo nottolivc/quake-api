@@ -43,7 +43,7 @@ const App = () => {
   }
   
   let magnitudes = []
-
+  // function to convert time to readable format, O(n)
   const getTime = () => {
     let now = new Date();
     return ((now.getMonth() + 1) + '-' +
