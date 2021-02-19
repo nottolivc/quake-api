@@ -21,7 +21,7 @@ const App = (props) => {
   let longitude;
 
   useEffect( async () => {    
-    //http://localhost:4000/quakes will work as well as long as server installed & running locally
+    // http://localhost:4000/quakes will work as well as long as server installed & running locally
     // deployed api version here
     await axios.get(`https://blooming-basin-73834.herokuapp.com/quakes`)
         .then(res => {
@@ -40,6 +40,7 @@ const App = (props) => {
         });
         setCurrentPage(currentPage);
   }, [currentPage])
+
   let earthquakes = []
 
   const PER_PAGE = 100;
@@ -50,6 +51,7 @@ const App = (props) => {
   }
   
   let magnitudes = []
+  
   // function to convert time to readable format, O(n)
   const getTime = (date) => {
     let now = new Date(date);
@@ -68,7 +70,7 @@ const App = (props) => {
   return (
     <>
     <Header />
-    <h4>Allow browser acccess to your location and search for activity near you</h4>
+    <h5 style={{color: '#777'}}>Allow browser acccess to your location and search for activity near you</h5>
     <p>{latitude}</p> <p>{longitude}</p>
     <Form />
     <br />
@@ -78,7 +80,7 @@ const App = (props) => {
     <p>Displaying top 100 of {quakes.length}</p>
     <p>Total Number of Earthquakes: {quakes.length}</p>
     <br />
-        <h1>Top 100 Recent Earthquakes List</h1>
+        <h2>Top 100 Recent Earthquakes List</h2>
         {loaded ? quakes.slice(offset, offset + PER_PAGE).map((quake, item) => {
         
         return (
