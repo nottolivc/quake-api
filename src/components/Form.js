@@ -128,7 +128,8 @@ return (
     <form onSubmit={handleSubmit} className="box">
       <br />
       <br />
-        <h2>Query Earthquakes (Closest Earthquakes in Range will Show)</h2>
+        <h1 style={{color: '#fff'}}>Query Earthquakes</h1> 
+        <h4 style={{color: '#aaa'}}>(Closest Earthquakes in Range will Show)</h4>
         <h4>Ordered by most Recent</h4>
         <p>Start date</p>
         <input type="date" onChange={onChangeStart} value={start} />
@@ -152,9 +153,9 @@ return (
     </div>
     <section className="main">
         <br />
-        <div><h3>Max Magnitude:</h3> {loaded ? <p>{[magsVal]}</p> : <p>Start Search...</p>}</div>
-        <div><h3>Median Magnitude:</h3> {loaded ? <p>{[medianMag]}</p> : <p>Start Search...</p>}</div>
-        <div>{loaded ? <h3>Search Results: {quakesData.length}</h3> : <p>Loading...</p>}</div>
+        <div><h3 style={{color: '#aaa'}}>Max Magnitude:</h3> {loaded ? <p>{[magsVal]}</p> : <p>Start Search...</p>}</div>
+        <div><h3 style={{color: '#aaa'}}>Median Magnitude:</h3> {loaded ? <p>{[medianMag]}</p> : <p>Start Search...</p>}</div>
+        <div>{loaded ? <h3 style={{color: '#aaa'}}>Search Results: {quakesData.length}</h3> : <p>Loading...</p>}</div>
         <br />
     </section>
     <h2>Quake Results Data Table</h2>
