@@ -1,8 +1,8 @@
 # Quake Query - Getting Started 
 ### (and next steps to refactor code)
 
-## git clone repo or see deployed frontend on netlify, server must be running on localhost for requests
-### run npm install & npm start for server & client dir locally to begin
+`git clone repo or see deployed frontend on netlify, server must be running on localhost for requests`
+`run npm install & npm start for server & client dir locally to begin`
 
 ## Overview of current Application, potential implementations/planning next steps:
 - Why hooks? split state vs class OOP with SOLID design priciples
